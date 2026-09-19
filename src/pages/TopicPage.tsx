@@ -25,9 +25,9 @@ export function TopicPage() {
   const [sliderPokes, setSliderPokes] = useState(0)
   const [sliderValue, setSliderValue] = useState(5)
 
-  // Slip af slideren: den finder altid selv tilbage til 5.
+  // Slip af slideren: alt under 5 afvises, og den springer op på 5 igen.
   function sliderRelease() {
-    if (sliderValue !== 5) {
+    if (sliderValue < 5) {
       setSliderValue(5)
       setSliderPokes((n) => n + 1)
     }
@@ -84,13 +84,14 @@ export function TopicPage() {
             <span>Vælg antal stjerner</span>
             <Stars />
           </div>
-          {/* Ægte native slider (virker også på iOS Safari): knappen følger
-              fingeren, men springer tilbage til 5, i det øjeblik man slipper. */}
+          {/* Ligner en helt almindelig 1-5-skala og starter på 5 — men slipper
+              man den på 1-4, springer den op på 5 igen. Native input, så den
+              virker også på iOS Safari. */}
           <input
             className="five-slider"
             type="range"
-            min={0}
-            max={10}
+            min={1}
+            max={5}
             step={1}
             value={sliderValue}
             onChange={(e) => setSliderValue(Number(e.target.value))}
@@ -99,20 +100,20 @@ export function TopicPage() {
             onMouseUp={sliderRelease}
             onKeyUp={sliderRelease}
             onBlur={sliderRelease}
-            aria-label="Antal stjerner (skalaen går fra 5 til 5)"
+            aria-label="Antal stjerner (alt under 5 afvises)"
           />
           <div className="slider-scale">
-            <span>5</span>
-            <span>5</span>
-            <span>5</span>
-            <span>5</span>
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
             <span>5</span>
           </div>
           <p className="note">
             {sliderPokes === 0
-              ? 'Skalaen går fra 5 til 5. Justér omhyggeligt.'
+              ? 'Vurdér frit på skalaen fra 1 til 5.'
               : sliderPokes < 4
-                ? 'Godt forsøg! Den finder altid selv tilbage til 5. 🔒'
+                ? 'Godt forsøg! Alt under 5 afvises automatisk. 🔒'
                 : 'Den ender på 5 hver gang. Ligesom turen. 😌'}
           </p>
         </div>
