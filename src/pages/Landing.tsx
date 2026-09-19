@@ -9,6 +9,9 @@ export function Landing() {
   const personId = useCurrentPerson()
   const person = personById(personId)
   const answered = person ? Object.keys(answers[person.id] ?? {}).length : 0
+  // "Om undersøgelsen" afslører metoden — den vises først, når der er
+  // afgivet mindst ét svar på enheden.
+  const anyAnswers = Object.values(answers).some((a) => Object.keys(a).length > 0)
 
   return (
     <div className="page">
@@ -94,15 +97,17 @@ export function Landing() {
           </span>
           <Chevron />
         </Link>
-        <Link to="/about" className="nav-row">
-          <span className="nav-ico">ℹ️</span>
-          <span className="nav-body">
-            <span className="nav-title">Om undersøgelsen</span>
-            <br />
-            <span className="nav-sub">Metode, habilitet og andre formaliteter</span>
-          </span>
-          <Chevron />
-        </Link>
+        {anyAnswers && (
+          <Link to="/about" className="nav-row">
+            <span className="nav-ico">ℹ️</span>
+            <span className="nav-body">
+              <span className="nav-title">Om undersøgelsen</span>
+              <br />
+              <span className="nav-sub">Metode, habilitet og andre formaliteter</span>
+            </span>
+            <Chevron />
+          </Link>
+        )}
       </nav>
     </div>
   )

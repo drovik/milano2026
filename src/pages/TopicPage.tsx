@@ -47,7 +47,7 @@ export function TopicPage() {
       cancelSliderAnim()
       sliderDelay.current = setTimeout(() => {
         sliderDelay.current = null
-        const duration = 3000
+        const duration = 2000
         const start = performance.now()
         const tick = (now: number) => {
           const k = Math.min(1, (now - start) / duration)
@@ -62,7 +62,7 @@ export function TopicPage() {
           }
         }
         sliderAnim.current = requestAnimationFrame(tick)
-      }, 1500)
+      }, 3000)
     }
   }
 

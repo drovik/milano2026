@@ -1,7 +1,14 @@
+import { Navigate } from 'react-router-dom'
 import { TopBar } from '../components/TopBar'
 import { ARRANGOERER, MEDREJSENDE } from '../data/people'
+import { useAnswers } from '../lib/store'
 
 export function AboutPage() {
+  // Siden afslører metoden — først adgang når mindst ét svar er afgivet.
+  const answers = useAnswers()
+  const anyAnswers = Object.values(answers).some((a) => Object.keys(a).length > 0)
+  if (!anyAnswers) return <Navigate to="/" replace />
+
   return (
     <>
       <TopBar title="Om undersøgelsen" sub="Milano · september 2026" />
