@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Stars } from '../components/Stars'
 import { TopBar } from '../components/TopBar'
@@ -25,11 +25,30 @@ export function TopicPage() {
   const [sliderPokes, setSliderPokes] = useState(0)
   const [sliderValue, setSliderValue] = useState(5)
 
-  // Slip af slideren: alt under 5 afvises, og den springer op på 5 igen.
+  const sliderAnim = useRef<number | null>(null)
+  function cancelSliderAnim() {
+    if (sliderAnim.current !== null) {
+      cancelAnimationFrame(sliderAnim.current)
+      sliderAnim.current = null
+    }
+  }
+
+  // Slip af slideren: alt under 5 afvises — og den glider langsomt,
+  // men ubønhørligt, op på 5 igen.
   function sliderRelease() {
     if (sliderValue < 5) {
-      setSliderValue(5)
       setSliderPokes((n) => n + 1)
+      const from = sliderValue
+      const duration = 1100
+      const start = performance.now()
+      cancelSliderAnim()
+      const tick = (now: number) => {
+        const k = Math.min(1, (now - start) / duration)
+        const eased = 1 - Math.pow(1 - k, 3) // easeOutCubic
+        setSliderValue(from + (5 - from) * eased)
+        sliderAnim.current = k < 1 ? requestAnimationFrame(tick) : null
+      }
+      sliderAnim.current = requestAnimationFrame(tick)
     }
   }
 
@@ -40,6 +59,7 @@ export function TopicPage() {
     setRejection(null)
     setSaved(false)
     setSliderPokes(0)
+    cancelSliderAnim()
     setSliderValue(5)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
@@ -85,16 +105,20 @@ export function TopicPage() {
             <Stars />
           </div>
           {/* Ligner en helt almindelig 1-5-skala og starter på 5 — men slipper
-              man den på 1-4, springer den op på 5 igen. Native input, så den
-              virker også på iOS Safari. */}
+              man den på 1-4, glider den langsomt op på 5 igen. Native input,
+              så den virker også på iOS Safari. step=0.01 giver den glidende
+              animation frem for hak. */}
           <input
             className="five-slider"
             type="range"
             min={1}
             max={5}
-            step={1}
+            step={0.01}
             value={sliderValue}
-            onChange={(e) => setSliderValue(Number(e.target.value))}
+            onChange={(e) => {
+              cancelSliderAnim()
+              setSliderValue(Number(e.target.value))
+            }}
             onPointerUp={sliderRelease}
             onTouchEnd={sliderRelease}
             onMouseUp={sliderRelease}
