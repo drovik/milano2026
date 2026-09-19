@@ -1,14 +1,10 @@
-// De godkendte svarmuligheder. Bemærk: samtlige er positive.
-// Det er ikke en fejl — det er en garanti.
-export const CHOICES = [
-  'Fantastisk!',
-  'Kunne ikke ha’ gjort det bedre selv',
-  'Godt',
-  'Der var ikke en finger at sætte på',
-  'Min favorit',
-] as const
+// Svarmulighederne er emne-specifikke og ligger på hvert emne i topics.ts.
+// Fælles for dem alle: samtlige er positive. Det er ikke en fejl — det er
+// en garanti.
 
-export type Choice = (typeof CHOICES)[number]
+// "Min favorit" går igen på alle emner, så resultatsiden kan kåre
+// turens favoritter.
+export const FAVORIT = 'Min favorit'
 
 // Svarmuligheder der IKKE findes på denne rejse. Vises kun som museums-
 // genstande — permanent deaktiveret af arrangørerne.

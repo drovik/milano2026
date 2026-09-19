@@ -16,14 +16,18 @@ kanaltur, sporvogne, shoppingtur m.m. — men undersøgelsen har én metodisk
 finesse: **der findes ingen negative svarmuligheder.**
 
 - Skalaen går fra **5 til 5 stjerner** (slideren kan justeres omhyggeligt).
-- Svarmulighederne er: *Fantastisk!* · *Kunne ikke ha' gjort det bedre selv* ·
-  *Godt* · *Der var ikke en finger at sætte* · *Min favorit*.
+- Hvert emne har sine egne skræddersyede svarmuligheder — alle positive
+  (fra *"Venedig kan pakke sammen"* til *"Kreditkortet glødede af ren
+  glæde"*). *"Min favorit"* går igen på alle emner og tælles op på
+  resultatsiden.
 - Neutrale svar som "Helt okay" vises, men er permanent deaktiveret af
   arrangørerne. 🔒
 - Fritekst-kommentarer skal igennem **Arrangørernes Positivitetsudvalg** —
   negative gloser afvises automatisk med venlig hilsen.
 - Resultatsiden viser svarfordeling, favorit-kåringer og garanterer et
   gennemsnit på 5,0.
+- Når alle emner er besvaret, kan svarene sendes til Dag med ét tryk via
+  **iMessage/SMS** (`sms:`-link med færdigskrevet besked).
 
 ## Emner
 

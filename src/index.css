@@ -439,6 +439,7 @@ h2.block-title { font-size: 18px; margin: 24px 4px 10px; font-weight: 700; }
 
 /* ---- Results ------------------------------------------------------------ */
 .result-hero { text-align: center; padding: 22px 16px; margin-top: 14px; }
+.dist-empty { padding: 12px 15px; margin: 0; }
 .result-big { display: flex; justify-content: center; }
 .result-verdict { color: var(--text-dim); font-size: 14.5px; line-height: 1.55; margin: 12px 0 0; }
 
@@ -451,7 +452,7 @@ h2.block-title { font-size: 18px; margin: 24px 4px 10px; font-weight: 700; }
   font-size: 13.5px;
 }
 .dist-row + .dist-row { border-top: 1px solid var(--border); }
-.dist-label { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dist-label { font-weight: 600; line-height: 1.3; }
 .dist-track { height: 8px; border-radius: 999px; background: var(--surface-3); overflow: hidden; }
 .dist-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent-2), var(--accent)); }
 .dist-n { text-align: right; font-weight: 700; color: var(--text-dim); font-variant-numeric: tabular-nums; }

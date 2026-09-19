@@ -1,24 +1,28 @@
 import { Stars } from '../components/Stars'
 import { TopBar } from '../components/TopBar'
-import { CHOICES } from '../data/answers'
-import { PEOPLE } from '../data/people'
+import { FAVORIT } from '../data/answers'
+import { PEOPLE, personById } from '../data/people'
 import { TOPICS } from '../data/topics'
-import { useAnswers } from '../lib/store'
+import { buildSmsBody, smsHref } from '../lib/sms'
+import { useAnswers, useCurrentPerson } from '../lib/store'
 
 export function ResultsPage() {
   const answers = useAnswers()
+  const me = personById(useCurrentPerson())
+  const myAnswers = me ? answers[me.id] ?? {} : {}
 
   const all = PEOPLE.flatMap((p) =>
     Object.entries(answers[p.id] ?? {}).map(([topicId, a]) => ({ person: p, topicId, ...a })),
   )
   const total = all.length
-  const counts = CHOICES.map((c) => ({
-    choice: c,
-    n: all.filter((a) => a.choice === c).length,
-  })).sort((a, b) => b.n - a.n)
+  // Svarmulighederne varierer pr. emne, så fordelingen tælles op over de
+  // svar der faktisk er givet.
+  const counts = [...new Set(all.map((a) => a.choice))]
+    .map((choice) => ({ choice, n: all.filter((a) => a.choice === choice).length }))
+    .sort((a, b) => b.n - a.n)
   const favourites = TOPICS.map((t) => ({
     topic: t,
-    n: all.filter((a) => a.topicId === t.id && a.choice === 'Min favorit').length,
+    n: all.filter((a) => a.topicId === t.id && a.choice === FAVORIT).length,
   }))
     .filter((x) => x.n > 0)
     .sort((a, b) => b.n - a.n)
@@ -56,6 +60,12 @@ export function ResultsPage() {
 
         <div className="section-label">Svarfordeling</div>
         <div className="card">
+          {counts.length === 0 && (
+            <p className="note dist-empty">
+              Ingen svar endnu. Fordelingen bliver 100&nbsp;% positiv — det kan
+              vi allerede nu afsløre.
+            </p>
+          )}
           {counts.map(({ choice, n }) => (
             <div key={choice} className="dist-row">
               <div className="dist-label">{choice}</div>
@@ -121,6 +131,12 @@ export function ResultsPage() {
               ))}
             </div>
           </>
+        )}
+
+        {me && Object.keys(myAnswers).length > 0 && (
+          <a className="cta-btn" href={smsHref(buildSmsBody(me, myAnswers))}>
+            Send {me.name}s svar til Dag 📱
+          </a>
         )}
 
         <p className="note center">

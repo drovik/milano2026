@@ -4,6 +4,7 @@ import { TopBar } from '../components/TopBar'
 import { personById } from '../data/people'
 import { GENERELT, OPLEVELSER, TOPICS } from '../data/topics'
 import type { Topic } from '../data/types'
+import { buildSmsBody, smsHref } from '../lib/sms'
 import { useAnswers, useCurrentPerson } from '../lib/store'
 
 function TopicRow({ topic, answered }: { topic: Topic; answered?: string }) {
@@ -71,9 +72,14 @@ export function SurveyPage() {
         </nav>
 
         {done && (
-          <Link to="/results" className="cta-btn">
-            Se resultaterne 🏆
-          </Link>
+          <>
+            <a className="cta-btn" href={smsHref(buildSmsBody(person, mine))}>
+              Send dine svar til Dag 📱
+            </a>
+            <Link to="/results" className="cta-btn secondary">
+              Se resultaterne 🏆
+            </Link>
+          </>
         )}
       </div>
     </>

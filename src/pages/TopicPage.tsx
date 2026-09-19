@@ -3,9 +3,10 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Stars } from '../components/Stars'
 import { TopBar } from '../components/TopBar'
 import { TopicImage } from '../components/TopicImage'
-import { CHOICES, FORBIDDEN_CHOICES, positivityCheck } from '../data/answers'
+import { FORBIDDEN_CHOICES, positivityCheck } from '../data/answers'
 import { personById } from '../data/people'
 import { TOPICS, topicById } from '../data/topics'
+import { buildSmsBody, smsHref } from '../lib/sms'
 import { saveAnswer, useAnswers, useCurrentPerson } from '../lib/store'
 
 export function TopicPage() {
@@ -95,7 +96,7 @@ export function TopicPage() {
 
         <h2 className="block-title">Dit svar</h2>
         <div className="choice-list">
-          {CHOICES.map((c) => (
+          {topic.choices.map((c) => (
             <button
               key={c}
               className={`choice-btn${choice === c ? ' sel' : ''}`}
@@ -142,9 +143,14 @@ export function TopicPage() {
           </button>
         )}
         {saved && !nextUnanswered && (
-          <button className="cta-btn secondary" onClick={() => nav('/results')}>
-            Alle emner besvaret — se resultaterne 🏆
-          </button>
+          <>
+            <a className="cta-btn secondary" href={smsHref(buildSmsBody(person, mine))}>
+              Alle emner besvaret — send dine svar til Dag 📱
+            </a>
+            <button className="cta-btn secondary" onClick={() => nav('/results')}>
+              Se resultaterne 🏆
+            </button>
+          </>
         )}
       </div>
     </>

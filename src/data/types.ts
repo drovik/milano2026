@@ -9,6 +9,8 @@ export type Topic = {
   blurb: string
   emoji: string
   category: Category
+  /** Emnets egne (udelukkende positive) svarmuligheder */
+  choices: string[]
 }
 
 export type Person = {
