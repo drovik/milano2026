@@ -20,8 +20,8 @@ finesse: **der findes ingen negative svarmuligheder.**
   (fra *"Venedig kan pakke sammen"* til *"Kreditkortet glødede af ren
   glæde"*). *"Min favorit"* går igen på alle emner og tælles op på
   resultatsiden.
-- Neutrale svar som "Helt okay" vises, men er permanent deaktiveret af
-  arrangørerne. 🔒
+- Neutrale svar som "Helt okay" kan godt vælges — men tre sekunder senere
+  opjusteres svaret automatisk til noget positivt. 🔒
 - Fritekst-kommentarer skal igennem **Arrangørernes Positivitetsudvalg** —
   negative gloser afvises automatisk med venlig hilsen.
 - Resultatsiden viser svarfordeling, favorit-kåringer og garanterer et

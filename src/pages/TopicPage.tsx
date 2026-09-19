@@ -66,6 +66,18 @@ export function TopicPage() {
     }
   }
 
+  // "Øvrige svarmuligheder": man KAN vælge dem — men efter 3 sekunder
+  // hopper markeringen selv over på et positivt svar.
+  const [forbiddenPick, setForbiddenPick] = useState<string | null>(null)
+  const [upgrades, setUpgrades] = useState(0)
+  const forbiddenTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  function cancelForbiddenTimer() {
+    if (forbiddenTimer.current !== null) {
+      clearTimeout(forbiddenTimer.current)
+      forbiddenTimer.current = null
+    }
+  }
+
   // Nulstil formularen når man går videre til næste emne.
   useEffect(() => {
     setChoice(existing?.choice ?? null)
@@ -75,6 +87,9 @@ export function TopicPage() {
     setSliderPokes(0)
     cancelSliderAnim()
     setSliderValue(5)
+    cancelForbiddenTimer()
+    setForbiddenPick(null)
+    setUpgrades(0)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
@@ -85,6 +100,20 @@ export function TopicPage() {
   const idx = TOPICS.findIndex((t) => t.id === topic.id)
   const nextUnanswered =
     TOPICS.slice(idx + 1).find((t) => !mine[t.id]) ?? TOPICS.find((t) => !mine[t.id] && t.id !== topic.id)
+  const choices = topic.choices
+
+  function pickForbidden(c: string) {
+    cancelForbiddenTimer()
+    setForbiddenPick(c)
+    setChoice(null)
+    setSaved(false)
+    forbiddenTimer.current = setTimeout(() => {
+      forbiddenTimer.current = null
+      setForbiddenPick(null)
+      setChoice(choices[Math.floor(Math.random() * choices.length)])
+      setUpgrades((n) => n + 1)
+    }, 3000)
+  }
 
   function submit() {
     if (!choice || !person || !topic) return
@@ -163,6 +192,8 @@ export function TopicPage() {
               key={c}
               className={`choice-btn${choice === c ? ' sel' : ''}`}
               onClick={() => {
+                cancelForbiddenTimer()
+                setForbiddenPick(null)
                 setChoice(c)
                 setSaved(false)
               }}
@@ -173,13 +204,25 @@ export function TopicPage() {
         </div>
 
         <div className="forbidden-box">
-          <div className="forbidden-head">🔒 Øvrige svarmuligheder</div>
+          <div className="forbidden-head">Øvrige svarmuligheder</div>
           {FORBIDDEN_CHOICES.map((c) => (
-            <button key={c} className="choice-btn forbidden" disabled>
+            <button
+              key={c}
+              className={`choice-btn forbidden${forbiddenPick === c ? ' sel' : ''}`}
+              onClick={() => pickForbidden(c)}
+            >
               {c}
             </button>
           ))}
-          <p className="note">Permanent deaktiveret af Dag, Torben &amp; Kuno.</p>
+          <p className="note">
+            {forbiddenPick
+              ? 'Registrerer dit svar …'
+              : upgrades === 0
+                ? 'For den kritiske gæst.'
+                : upgrades < 3
+                  ? 'Dit svar er blevet automatisk opjusteret. 🔒'
+                  : 'Systemet accepterer kun begejstring. 😌'}
+          </p>
         </div>
 
         <h2 className="block-title">Positiv kommentar (valgfri)</h2>

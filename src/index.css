@@ -377,13 +377,7 @@ h2.block-title { font-size: 18px; margin: 24px 4px 10px; font-weight: 700; }
   box-shadow: 0 0 0 1px var(--accent);
 }
 .choice-btn.sel::after { content: '  ✓'; color: var(--accent); font-weight: 800; }
-.choice-btn.forbidden {
-  opacity: 0.38;
-  cursor: not-allowed;
-  text-decoration: line-through;
-  text-decoration-color: var(--red);
-  margin-top: 8px;
-}
+.choice-btn.forbidden { margin-top: 8px; }
 
 .forbidden-box {
   margin-top: 18px;

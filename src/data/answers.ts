@@ -6,8 +6,8 @@
 // turens favoritter.
 export const FAVORIT = 'Min favorit'
 
-// Svarmuligheder der IKKE findes på denne rejse. Vises kun som museums-
-// genstande — permanent deaktiveret af arrangørerne.
+// De "neutrale" svarmuligheder. De kan godt vælges — men tre sekunder
+// senere opjusteres svaret automatisk til noget positivt.
 export const FORBIDDEN_CHOICES = ['Udmærket', 'Helt okay', 'Det var fint nok'] as const
 
 // Ord der får en kommentar afvist af Arrangørernes Positivitetsudvalg.
