@@ -26,29 +26,43 @@ export function TopicPage() {
   const [sliderValue, setSliderValue] = useState(5)
 
   const sliderAnim = useRef<number | null>(null)
+  const sliderDelay = useRef<ReturnType<typeof setTimeout> | null>(null)
   function cancelSliderAnim() {
     if (sliderAnim.current !== null) {
       cancelAnimationFrame(sliderAnim.current)
       sliderAnim.current = null
     }
+    if (sliderDelay.current !== null) {
+      clearTimeout(sliderDelay.current)
+      sliderDelay.current = null
+    }
   }
 
-  // Slip af slideren: alt under 5 afvises — og den glider langsomt,
-  // men ubønhørligt, op på 5 igen.
+  // Slip af slideren under 5: den lader som om vurderingen blev accepteret,
+  // ligger stille et øjeblik — og kravler så umærkeligt op på 5 igen.
+  // Beskeden afsløres først, når den er landet.
   function sliderRelease() {
     if (sliderValue < 5) {
-      setSliderPokes((n) => n + 1)
       const from = sliderValue
-      const duration = 1100
-      const start = performance.now()
       cancelSliderAnim()
-      const tick = (now: number) => {
-        const k = Math.min(1, (now - start) / duration)
-        const eased = 1 - Math.pow(1 - k, 3) // easeOutCubic
-        setSliderValue(from + (5 - from) * eased)
-        sliderAnim.current = k < 1 ? requestAnimationFrame(tick) : null
-      }
-      sliderAnim.current = requestAnimationFrame(tick)
+      sliderDelay.current = setTimeout(() => {
+        sliderDelay.current = null
+        const duration = 3000
+        const start = performance.now()
+        const tick = (now: number) => {
+          const k = Math.min(1, (now - start) / duration)
+          // easeInOutCubic — starter så langsomt, at man dårligt opdager det
+          const eased = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2
+          setSliderValue(from + (5 - from) * eased)
+          if (k < 1) {
+            sliderAnim.current = requestAnimationFrame(tick)
+          } else {
+            sliderAnim.current = null
+            setSliderPokes((n) => n + 1)
+          }
+        }
+        sliderAnim.current = requestAnimationFrame(tick)
+      }, 1500)
     }
   }
 
