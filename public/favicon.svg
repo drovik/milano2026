@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Milano 2026 — Duomo silhouette in gold on midnight navy -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1d2b4a"/>
+      <stop offset="1" stop-color="#0d1526"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2c26a"/>
+      <stop offset="1" stop-color="#d99a2f"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="16" fill="url(#bg)"/>
+  <circle cx="50" cy="14" r="26" fill="#e8b04b" opacity="0.12"/>
+  <g fill="url(#gold)">
+    <!-- spires -->
+    <polygon points="50,24 53.2,56 46.8,56"/>
+    <polygon points="39,34 41.8,58 36.2,58"/>
+    <polygon points="61,34 63.8,58 58.2,58"/>
+    <polygon points="28,42 30.6,60 25.4,60"/>
+    <polygon points="72,42 74.6,60 69.4,60"/>
+    <!-- facade -->
+    <path d="M20 74 L20 62 L34 62 L34 58 L44 58 L44 54 L56 54 L56 58 L66 58 L66 62 L80 62 L80 74 Z"/>
+    <!-- Madonnina star -->
+    <polygon points="50,13 51.6,18.4 57,20 51.6,21.6 50,27 48.4,21.6 43,20 48.4,18.4"/>
+  </g>
+  <!-- portal -->
+  <path d="M46 74 L46 66 Q50 62 54 66 L54 74 Z" fill="#0d1526"/>
+</svg>
