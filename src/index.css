@@ -289,37 +289,52 @@ h2.block-title { font-size: 18px; margin: 24px 4px 10px; font-weight: 700; }
   font-weight: 600;
   margin-bottom: 12px;
 }
+/* Ægte <input type="range">, stylet ens i WebKit (iOS Safari) og Firefox.
+   -webkit-appearance: none er nødvendig, for at iOS respekterer stylingen. */
 .five-slider {
-  position: relative;
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
   width: 100%;
   height: 28px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
   cursor: grab;
-  outline: none;
+  touch-action: none;
 }
 .five-slider:active { cursor: grabbing; }
-.five-slider-track {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
+.five-slider::-webkit-slider-runnable-track {
   height: 6px;
-  transform: translateY(-50%);
   border-radius: 999px;
   background: linear-gradient(90deg, var(--accent-2), var(--accent));
 }
-.five-slider-thumb {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+.five-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
   width: 22px;
   height: 22px;
-  transform: translate(-50%, -50%);
+  margin-top: -8px; /* centrér på det 6px høje spor */
   border-radius: 50%;
   background: var(--accent);
   border: 3px solid #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
 }
-.five-slider:focus-visible .five-slider-thumb { box-shadow: 0 0 0 4px rgba(232, 176, 75, 0.35); }
+.five-slider::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent));
+}
+.five-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+.five-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(232, 176, 75, 0.35); }
+.five-slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px rgba(232, 176, 75, 0.35); }
 .slider-scale {
   display: flex;
   justify-content: space-between;

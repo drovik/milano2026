@@ -22,6 +22,7 @@ export function TopicPage() {
   const [comment, setComment] = useState(existing?.comment ?? '')
   const [rejection, setRejection] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
+  const [sliderPokes, setSliderPokes] = useState(0)
 
   // Nulstil formularen når man går videre til næste emne.
   useEffect(() => {
@@ -29,6 +30,7 @@ export function TopicPage() {
     setComment(existing?.comment ?? '')
     setRejection(null)
     setSaved(false)
+    setSliderPokes(0)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
@@ -72,18 +74,18 @@ export function TopicPage() {
             <span>Vælg antal stjerner</span>
             <Stars />
           </div>
-          <div
+          {/* Ægte native slider (virker også på iOS Safari) — men React holder
+              den kontrolleret på 5, så den nægter venligt at flytte sig. */}
+          <input
             className="five-slider"
-            role="slider"
-            aria-label="Antal stjerner"
-            aria-valuemin={5}
-            aria-valuemax={5}
-            aria-valuenow={5}
-            tabIndex={0}
-          >
-            <div className="five-slider-track" />
-            <div className="five-slider-thumb" />
-          </div>
+            type="range"
+            min={0}
+            max={10}
+            step={1}
+            value={5}
+            onChange={() => setSliderPokes((n) => n + 1)}
+            aria-label="Antal stjerner (skalaen går fra 5 til 5)"
+          />
           <div className="slider-scale">
             <span>5</span>
             <span>5</span>
@@ -91,7 +93,13 @@ export function TopicPage() {
             <span>5</span>
             <span>5</span>
           </div>
-          <p className="note">Skalaen går fra 5 til 5. Justér omhyggeligt.</p>
+          <p className="note">
+            {sliderPokes === 0
+              ? 'Skalaen går fra 5 til 5. Justér omhyggeligt.'
+              : sliderPokes < 4
+                ? 'Slideren er fabrikskalibreret til 5 af arrangørerne. 🔒'
+                : 'Den giver sig ikke. Det gør arrangørerne heller ikke. 😌'}
+          </p>
         </div>
 
         <h2 className="block-title">Dit svar</h2>
