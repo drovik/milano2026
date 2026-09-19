@@ -22,3 +22,22 @@ export function TopicImage({ topic }: { topic: Topic }) {
     />
   )
 }
+
+// Valgfrit ekstra billede (public/images/<topic-id>-2.jpg) under
+// beskrivelsen — vises kun, hvis filen findes.
+export function TopicExtraImage({ topic }: { topic: Topic }) {
+  const [loaded, setLoaded] = useState(false)
+  const [missing, setMissing] = useState(false)
+  if (missing) return null
+  return (
+    <div className="topic-hero" style={loaded ? undefined : { display: 'none' }}>
+      <img
+        className="topic-hero-img"
+        src={`./images/${topic.id}-2.jpg`}
+        alt=""
+        onLoad={() => setLoaded(true)}
+        onError={() => setMissing(true)}
+      />
+    </div>
+  )
+}

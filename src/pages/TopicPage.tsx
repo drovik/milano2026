@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Stars } from '../components/Stars'
 import { TopBar } from '../components/TopBar'
-import { TopicImage } from '../components/TopicImage'
+import { TopicExtraImage, TopicImage } from '../components/TopicImage'
 import { FORBIDDEN_CHOICES, positivityCheck } from '../data/answers'
 import { personById } from '../data/people'
 import { TOPICS, topicById } from '../data/topics'
@@ -140,6 +140,7 @@ export function TopicPage() {
           <TopicImage topic={topic} />
         </div>
         <p className="summary">{topic.blurb}</p>
+        <TopicExtraImage topic={topic} />
 
         <h2 className="block-title">Din vurdering</h2>
         <div className="card slider-card">
