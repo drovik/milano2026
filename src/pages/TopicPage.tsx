@@ -23,6 +23,15 @@ export function TopicPage() {
   const [rejection, setRejection] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
   const [sliderPokes, setSliderPokes] = useState(0)
+  const [sliderValue, setSliderValue] = useState(5)
+
+  // Slip af slideren: den finder altid selv tilbage til 5.
+  function sliderRelease() {
+    if (sliderValue !== 5) {
+      setSliderValue(5)
+      setSliderPokes((n) => n + 1)
+    }
+  }
 
   // Nulstil formularen når man går videre til næste emne.
   useEffect(() => {
@@ -31,6 +40,7 @@ export function TopicPage() {
     setRejection(null)
     setSaved(false)
     setSliderPokes(0)
+    setSliderValue(5)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
@@ -74,16 +84,21 @@ export function TopicPage() {
             <span>Vælg antal stjerner</span>
             <Stars />
           </div>
-          {/* Ægte native slider (virker også på iOS Safari) — men React holder
-              den kontrolleret på 5, så den nægter venligt at flytte sig. */}
+          {/* Ægte native slider (virker også på iOS Safari): knappen følger
+              fingeren, men springer tilbage til 5, i det øjeblik man slipper. */}
           <input
             className="five-slider"
             type="range"
             min={0}
             max={10}
             step={1}
-            value={5}
-            onChange={() => setSliderPokes((n) => n + 1)}
+            value={sliderValue}
+            onChange={(e) => setSliderValue(Number(e.target.value))}
+            onPointerUp={sliderRelease}
+            onTouchEnd={sliderRelease}
+            onMouseUp={sliderRelease}
+            onKeyUp={sliderRelease}
+            onBlur={sliderRelease}
             aria-label="Antal stjerner (skalaen går fra 5 til 5)"
           />
           <div className="slider-scale">
@@ -97,8 +112,8 @@ export function TopicPage() {
             {sliderPokes === 0
               ? 'Skalaen går fra 5 til 5. Justér omhyggeligt.'
               : sliderPokes < 4
-                ? 'Slideren er fabrikskalibreret til 5 af arrangørerne. 🔒'
-                : 'Den giver sig ikke. Det gør arrangørerne heller ikke. 😌'}
+                ? 'Godt forsøg! Den finder altid selv tilbage til 5. 🔒'
+                : 'Den ender på 5 hver gang. Ligesom turen. 😌'}
           </p>
         </div>
 
